@@ -1,4 +1,4 @@
-FROM ghcr.io/bimberlabinteral/cellmembrane
+FROM ghcr.io/bimberlabinternal/cellmembrane:latest
 
 ARG DEBIAN_FRONTEND=noninteractive
 
