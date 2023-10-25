@@ -57,7 +57,7 @@ jobs:
             "GH_PAT=${{ secrets.PAT }}"
             pull: true
             push: true
-            tags: ghcr.io/gwmcelfresh/cmdstanr-brms-image:nightly,ghcr.io/gwmcelfresh/cmdstanr-brms-image:latest
+            tags: ghcr.io/gwmcelfresh/cmdstanr-brms-image:nightly, ghcr.io/gwmcelfresh/cmdstanr-brms-image:latest
             labels: |
               ${{ steps.docker_meta.outputs.labels }}
               org.opencontainers.image.title=cmdstanr-brms-image
