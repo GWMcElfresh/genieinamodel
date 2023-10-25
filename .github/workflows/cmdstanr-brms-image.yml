@@ -23,7 +23,7 @@ jobs:
         id: docker_meta
         uses: docker/metadata-action@v4
         with:
-          images: ghcr.io/gwmcelfresh/docker_image
+          images: ghcr.io/gwmcelfresh/cmdstanr-brms-image
           tags: |
             type=semver,pattern={{version}}
             type=semver,pattern={{major}}.{{minor}}
@@ -57,8 +57,8 @@ jobs:
             "GH_PAT=${{ secrets.PAT }}"
             pull: true
             push: true
-            tags: ghcr.io/gwmcelfresh/docker_image:nightly,ghcr.io/gwmcelfresh/docker_image:latest
+            tags: ghcr.io/gwmcelfresh/cmdstanr-brms-image:nightly,ghcr.io/gwmcelfresh/cmdstanr-brms-image:latest
             labels: |
               ${{ steps.docker_meta.outputs.labels }}
-              org.opencontainers.image.title=docker_image
+              org.opencontainers.image.title=cmdstanr-brms-image
               org.opencontainers.image.description=This docker image is meant to help GW bridge software gaps when trying to do science on an HPC. 
