@@ -11,4 +11,3 @@ RUN R -e "library(cmdstanr);library(brms);dir.create('/cmdstan', showWarnings = 
 
 RUN chmod -R 777 /cmdstan/*
 RUN R -e "library(cmdstanr);cmdstanr::set_cmdstan_path(path = list.dirs('/cmdstan')[[2]]);cpp_options <- list('CXX' = 'clang++','CXXFLAGS+'= '-march=native',PRECOMPILED_HEADERS = FALSE);rebuild_cmdstan()"
-RUN Rscript --vanilla './brms_within_chain_parallelization.R'
