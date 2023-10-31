@@ -1,7 +1,7 @@
 on:
   workflow_dispatch:
   push:
-    branches: [ master, dev ]
+    branches: [ main, dev ]
   pull_request:
 
 name: R Build and Checks
@@ -121,11 +121,11 @@ jobs:
           path: check
 
       - name: Install package
-        if: github.ref == 'refs/heads/master' && matrix.config.pkgdown == 'true'
+        if: github.ref == 'refs/heads/main' && matrix.config.pkgdown == 'true'
         run: R CMD INSTALL .
 
       - name: Deploy package
-        if: github.ref == 'refs/heads/master' && matrix.config.pkgdown == 'true'
+        if: github.ref == 'refs/heads/main' && matrix.config.pkgdown == 'true'
         run: |
           git config --local user.email "actions@github.com"
           git config --local user.name "GitHub Actions"
