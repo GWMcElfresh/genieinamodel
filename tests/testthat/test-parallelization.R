@@ -1,6 +1,6 @@
 context("brms-parallelization")
 
-test_that("Cite-Seq Normalization Works", {
+test_that("Parallelization Works", {
   #shamelessly theive this file from JBris's cmdstanr docker repo. 
   
   ##################################################
