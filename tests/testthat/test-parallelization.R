@@ -8,15 +8,12 @@ test_that("Parallelization Works", {
   ##################################################
   
   library(tidyverse)
-  library(brms)
+  #create local cmdstanr directory and point to it for brms
   library(cmdstanr)
-  
-  ##################################################
-  # cmdStan install to local directory
-  ##################################################
   dir.create('/cmdstan', showWarnings = FALSE)
   cmdstanr::install_cmdstan(dir='/cmdstan')
   cmdstanr::set_cmdstan_path(path = list.dirs('/cmdstan')[[2]])
+  library(brms)
   
   ##################################################
   # Main
