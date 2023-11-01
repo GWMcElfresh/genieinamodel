@@ -14,7 +14,8 @@ Depends:
 Imports:
     tidyverse,
     bayesplot, 
-    brms
+    brms,
+    cmdstanr
 Suggests: 
     testthat (>= 3.0.0)
 Config/testthat/edition: 3
