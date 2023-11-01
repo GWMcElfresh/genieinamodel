@@ -12,6 +12,13 @@ test_that("Parallelization Works", {
   library(cmdstanr)
   
   ##################################################
+  # cmdStan install to local directory
+  ##################################################
+  dir.create('/cmdstan', showWarnings = FALSE)
+  cmdstanr::install_cmdstan(dir='/cmdstan')
+  cmdstanr::set_cmdstan_path(path = list.dirs('/cmdstan')[[2]])"
+  
+  ##################################################
   # Main
   ##################################################
   
