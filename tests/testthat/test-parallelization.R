@@ -9,6 +9,7 @@ test_that("Parallelization Works", {
   
   library(tidyverse)
   library(brms)
+  library(cmdstanr)
   
   ##################################################
   # Main
