@@ -16,7 +16,7 @@ test_that("Parallelization Works", {
   ##################################################
   dir.create('/cmdstan', showWarnings = FALSE)
   cmdstanr::install_cmdstan(dir='/cmdstan')
-  cmdstanr::set_cmdstan_path(path = list.dirs('/cmdstan')[[2]])"
+  cmdstanr::set_cmdstan_path(path = list.dirs('/cmdstan')[[2]])
   
   ##################################################
   # Main
