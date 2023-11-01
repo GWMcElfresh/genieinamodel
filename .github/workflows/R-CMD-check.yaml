@@ -93,6 +93,7 @@ jobs:
           remotes::install_deps(dependencies = TRUE, upgrade = "always")
           install.packages("pkgdown")
           remotes::install_cran("rcmdcheck")
+          install.packages('cmdstanr', repos = c('https://mc-stan.org/r-packages/', getOption('repos')))
         shell: Rscript {0}
 
       - name: Session info
