@@ -6,7 +6,7 @@ RUN R -e "install.packages('tidyverse')" && \
   R -e "install.packages('cmdstanr', repos = c('https://mc-stan.org/r-packages/', getOption('repos')))" && \
   R -e "install.packages('RcppParallel')" && \
   R -e "install.packages('MCMCglmm')" && \
-  R -e "install.packages('brms')" && \
+  R -e "devtools::install_github('paul-buerkner/brms')" && \
   R -e "devtools::install_github(repo = 'bimberlabinternal/Rdiscvr', upgrade = 'never')" && \
   R -e "remotes::install_github(repo = 'ChangSuBiostats/CS-CORE')"
 
