@@ -11,7 +11,7 @@ test_that("Parallelization Works", {
   #create local cmdstanr directory and point to it for brms
   library(cmdstanr)
   dir.create(paste0(getwd(),'/cmdstan'), showWarnings = TRUE)
-  cmdstanr::install_cmdstan(dir=paste0(getwd(),'/cmdstan'))
+  cmdstanr::install_cmdstan(dir=paste0(getwd(),'/cmdstan'), version = "2.32.2")
   cmdstanr::set_cmdstan_path(path = list.dirs(paste0(getwd(),'/cmdstan'))[[2]])
   library(brms)
   
