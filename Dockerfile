@@ -9,6 +9,7 @@ RUN R -e "install.packages('tidyverse')" && \
   R -e "devtools::install_github('paul-buerkner/brms')" && \
   R -e "devtools::install_github(repo = 'bimberlabinternal/Rdiscvr', upgrade = 'never')" && \
   R -e "remotes::install_github(repo = 'ChangSuBiostats/CS-CORE')" && \
+  R -e "remotes::install_github(repo = 'jishnu-lab/SLIDE')" && \
   apt-get clean && \
   rm -rf /var/lib/apt/lists/*
 
