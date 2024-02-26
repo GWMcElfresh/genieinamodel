@@ -10,6 +10,7 @@ RUN R -e "install.packages('tidyverse')" && \
   R -e "devtools::install_github(repo = 'bimberlabinternal/Rdiscvr', upgrade = 'never')" && \
   R -e "remotes::install_github(repo = 'ChangSuBiostats/CS-CORE')" && \
   R -e "remotes::install_github(repo = 'jishnu-lab/SLIDE')" && \
+  R -e "remotes::install_github(repo = 'ncborcherding/escape')" && \
   apt-get clean && \
   rm -rf /var/lib/apt/lists/*
 
