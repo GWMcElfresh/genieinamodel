@@ -11,6 +11,7 @@ RUN R -e "install.packages('tidyverse')" && \
   R -e "remotes::install_github(repo = 'ChangSuBiostats/CS-CORE')" && \
   R -e "remotes::install_github(repo = 'jishnu-lab/SLIDE')" && \
   R -e "remotes::install_github(repo = 'ncborcherding/escape')" && \
+  pip install scdef && \
   apt-get clean && \
   rm -rf /var/lib/apt/lists/*
 
