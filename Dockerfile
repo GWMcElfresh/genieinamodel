@@ -12,6 +12,7 @@ RUN R -e "install.packages('tidyverse')" && \
   R -e "remotes::install_github(repo = 'jishnu-lab/SLIDE')" && \
   R -e "remotes::install_github(repo = 'ncborcherding/escape')" && \
   pip install scdef && \
+  pip cache purge && \
   apt-get clean && \
   rm -rf /var/lib/apt/lists/*
 
