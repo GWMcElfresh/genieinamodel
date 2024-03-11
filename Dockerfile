@@ -12,6 +12,7 @@ RUN R -e "install.packages('tidyverse')" && \
   R -e "remotes::install_github(repo = 'jishnu-lab/SLIDE')" && \
   R -e "devtools::install_github('rcastelo/GSVA')" && \
   R -e "remotes::install_github(repo = 'saezlab/MOFAcellulaR')" && \
+  pip install mofapy2 && \
   pip install scdef && \
   pip cache purge && \
   apt-get clean && \
