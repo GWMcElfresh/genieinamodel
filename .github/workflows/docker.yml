@@ -23,7 +23,7 @@ jobs:
         id: docker_meta
         uses: docker/metadata-action@v4
         with:
-          images: ghcr.io/gwmcelfresh/cmdstanr-brms-image
+          images: ghcr.io/gwmcelfresh/gwiz
           tags: |
             type=semver,pattern={{version}}
             type=semver,pattern={{major}}.{{minor}}
@@ -52,5 +52,5 @@ jobs:
           context: .
           push: true
           tags: |
-            ghcr.io/gwmcelfresh/cmdstanr-brms-image:latest
-            ghcr.io/gwmcelfresh/cmdstanr-brms-image:nightly
+            ghcr.io/gwmcelfresh/gwiz:latest
+            ghcr.io/gwmcelfresh/gwiz:nightly
