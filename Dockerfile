@@ -14,6 +14,7 @@ RUN R -e "install.packages('tidyverse')" && \
   R -e "remotes::install_github(repo = 'saezlab/MOFAcellulaR')" && \
   pip install mofapy2 && \
   pip install scdef && \
+  pip install pykan && \
   pip cache purge && \
   apt-get clean && \
   rm -rf /var/lib/apt/lists/* && \
