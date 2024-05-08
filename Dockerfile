@@ -15,6 +15,7 @@ RUN R -e "install.packages('tidyverse')" && \
   pip install mofapy2 && \
   pip install scdef && \
   pip install pykan && \
+  pip install onnxruntime && \
   pip cache purge && \
   apt-get clean && \
   rm -rf /var/lib/apt/lists/* && \
