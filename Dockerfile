@@ -13,10 +13,10 @@ RUN R -e "install.packages('tidyverse')" && \
   R -e "devtools::install_github('rcastelo/GSVA')" && \
   R -e "remotes::install_github(repo = 'saezlab/MOFAcellulaR')" && \
   R -e "install.packages('fastDummies')" && \
-  pip install mofapy2 && \
-  pip install scdef && \
-  pip install pykan && \
-  pip install onnxruntime && \
+  pip install --user mofapy2 && \
+  pip install --user scdef && \
+  pip install --user pykan && \
+  pip install --user onnxruntime && \
   pip cache purge && \
   apt-get clean && \
   rm -rf /var/lib/apt/lists/* && \
