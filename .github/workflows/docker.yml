@@ -52,5 +52,5 @@ jobs:
           context: .
           push: true
           tags: |
-            ghcr.io/gwmcelfresh/genie-in-a-model:latest
-            ghcr.io/gwmcelfresh/genie-in-a-model:nightly
+            ghcr.io/gwmcelfresh/genieinamodel:latest
+            ghcr.io/gwmcelfresh/genieinamodel:nightly
