@@ -15,8 +15,6 @@ RUN R -e "install.packages('tidyverse')" && \
   R -e "install.packages('fastDummies')" && \
   pip install mofapy2 && \
   pip install scdef && \
-  pip install pykan && \
-  pip install onnxruntime && \
   pip cache purge && \
   apt-get clean && \
   rm -rf /var/lib/apt/lists/* && \
@@ -28,11 +26,16 @@ RUN mkdir /GW_Python && \
   wget http://www.python.org/ftp/python/3.8.10/Python-3.8.10.tgz && \
   tar -zxvf Python-3.8.10.tgz && \
   cd Python-3.8.10 && \
-  ./configure --prefix=/GW_Python
+  ./configure --prefix=/GW_Python && \
+  pip uninstall torch torchvision torchaudio
 RUN cd /GW_Python/Python-3.8.10 && \
   make && \
   make install && \
-  export PATH=$PATH:/GW_Python/Python-3.8.10/bin
+  ls -s /GW_Python/bin/python3 /usr/bin/gw_python && \
+  ls -s /GW_Python/bin/pip3 /usr/bin/gw_pip && \
+  gw_pip install torch torchvision torchaudio && \
+  gw_pip install pykan && \
+  gw_pip install onnxruntime
   
 
 #reset ENVS that might be lost in singularity (in writable work directory)
