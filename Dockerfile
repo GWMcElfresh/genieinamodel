@@ -31,11 +31,9 @@ RUN mkdir /GW_Python && \
 RUN cd /GW_Python/Python-3.8.10 && \
   make && \
   make install && \
-  ls -s /GW_Python/bin/python3 /usr/bin/gw_python && \
-  ls -s /GW_Python/bin/pip3 /usr/bin/gw_pip && \
-  gw_pip install -y torch torchvision torchaudio && \
-  gw_pip install pykan && \
-  gw_pip install onnxruntime
+  /GW_Python/bin/pip3 install -y torch torchvision torchaudio && \
+  /GW_Python/bin/pip3 install pykan && \
+  /GW_Python/bin/pip3 install onnxruntime
   
 
 #reset ENVS that might be lost in singularity (in writable work directory)
