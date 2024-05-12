@@ -28,9 +28,9 @@ RUN mkdir /GW_Python && \
   wget http://www.python.org/ftp/python/3.8.10/Python-3.8.10.tgz && \
   tar -zxvf Python-3.8.10.tgz && \
   cd Python-3.8.10 && \
-  ./configure --prefix=/GW_Python && \ 
-  cd /GW_Python 
-RUN make && \ 
+  ./configure --prefix=/GW_Python
+RUN cd /GW_Python && \
+  make && \ 
   make install && \ 
   rm Python-3.8.10.tgz 
   
