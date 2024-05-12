@@ -27,13 +27,13 @@ RUN mkdir /GW_Python && \
   tar -zxvf Python-3.8.10.tgz && \
   cd Python-3.8.10 && \
   ./configure --prefix=/GW_Python && \
-  pip uninstall torch torchvision torchaudio
+  pip uninstall -y torch torchvision torchaudio
 RUN cd /GW_Python/Python-3.8.10 && \
   make && \
   make install && \
   ls -s /GW_Python/bin/python3 /usr/bin/gw_python && \
   ls -s /GW_Python/bin/pip3 /usr/bin/gw_pip && \
-  gw_pip install torch torchvision torchaudio && \
+  gw_pip install -y torch torchvision torchaudio && \
   gw_pip install pykan && \
   gw_pip install onnxruntime
   
