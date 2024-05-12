@@ -30,9 +30,9 @@ RUN mkdir /GW_Python && \
   cd Python-3.8.10 && \
   ./configure --prefix=/GW_Python
 RUN cd /GW_Python && \
-  make && \ 
-  make install && \ 
-  rm Python-3.8.10.tgz 
+  make && \
+  make install && \
+  rm Python-3.8.10.tgz
   
 
 #reset ENVS that might be lost in singularity (in writable work directory)
