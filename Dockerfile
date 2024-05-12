@@ -32,7 +32,7 @@ RUN mkdir /GW_Python && \
 RUN cd /GW_Python/Python-3.8.10 && \
   make && \
   make install && \
-  rm Python-3.8.10.tgz
+  export PATH=$PATH:/GW_Python/Python-3.8.10/bin
   
 
 #reset ENVS that might be lost in singularity (in writable work directory)
