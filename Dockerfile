@@ -29,7 +29,7 @@ RUN mkdir /GW_Python && \
   tar -zxvf Python-3.8.10.tgz && \
   cd Python-3.8.10 && \
   ./configure --prefix=/GW_Python
-RUN cd /GW_Python && \
+RUN cd /GW_Python/Python-3.8.10 && \
   make && \
   make install && \
   rm Python-3.8.10.tgz
