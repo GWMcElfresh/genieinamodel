@@ -21,7 +21,18 @@ RUN R -e "install.packages('tidyverse')" && \
   apt-get clean && \
   rm -rf /var/lib/apt/lists/* && \
   R -e "library(cmdstanr);library(brms);dir.create('/cmdstan', showWarnings = FALSE);cmdstanr::install_cmdstan(dir='/cmdstan', version = '2.32.2');cmdstanr::set_cmdstan_path(path = list.dirs('/cmdstan')[[2]])" && \
-  gzip -r /cmdstan 
+  gzip -r /cmdstan  && \
+  mkdir /GW_Python && \
+  cd /GW_Python && \
+  wget http://www.python.org/ftp/python/3.8.10/Python-3.8.10.tgz && \
+  tar -zxvf Python-3.8.10.tgz && \
+  cd Python-3.8.10 && \
+  ./configure --prefix=/GW_Python && \ 
+  cd /GW_Python && \
+  make && \ 
+  make install && \ 
+  rm Python-3.8.10.tgz 
+  
 
 #reset ENVS that might be lost in singularity (in writable work directory)
 ENV RETICULATE_PYTHON=/usr/bin/python3
