@@ -30,8 +30,7 @@ RUN mkdir /GW_Python && \
   pip uninstall -y torch torchvision torchaudio
 RUN cd /GW_Python/Python-3.8.10 && \
   make && \
-  make install && \
-  /GW_Python/bin/pip3 install torch torchvision torchaudio && \
+  make install && 
   /GW_Python/bin/pip3 install pykan && \
   /GW_Python/bin/pip3 install onnxruntime
   
