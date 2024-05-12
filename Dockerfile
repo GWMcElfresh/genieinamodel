@@ -23,6 +23,24 @@ RUN R -e "install.packages('tidyverse')" && \
   R -e "library(cmdstanr);library(brms);dir.create('/cmdstan', showWarnings = FALSE);cmdstanr::install_cmdstan(dir='/cmdstan', version = '2.32.2');cmdstanr::set_cmdstan_path(path = list.dirs('/cmdstan')[[2]])" && \
   gzip -r /cmdstan 
 
+#reset ENVS that might be lost in singularity (in writable work directory)
+ENV RETICULATE_PYTHON=/usr/bin/python3
+
+# NOTE: this is required when running as non-root. Setting MPLCONFIGDIR removes a similar warning.
+ENV NUMBA_CACHE_DIR=/work/numba_cache
+ENV MPLCONFIGDIR=/work/mpl_cache
+
+ENV CONGA_PNG_TO_SVG_UTILITY=inkscape
+ENV INKSCAPE_PROFILE_DIR=/work/inkscape
+ENV USE_GMMDEMUX_SEED=1
+
+# Create location for BioConductor AnnotationHub/ExperimentHub caches:
+ENV ANNOTATION_HUB_CACHE=/work/BiocFileCache
+ENV EXPERIMENT_HUB_CACHE=/work/BiocFileCache
+ENV BFC_CACHE=/work/BiocFileCache
+
+ENV CELLTYPIST_FOLDER=/tmp
+
 #ENTRYPOINT ["/bin/bash", "-l", "-c"]
 
 #RUN chmod -R 777 /cmdstan/*
