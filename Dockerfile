@@ -32,7 +32,8 @@ RUN cd /GW_Python/Python-3.8.10 && \
   make && \
   make install && \
   /GW_Python/bin/pip3 install pykan && \
-  /GW_Python/bin/pip3 install onnxruntime
+  /GW_Python/bin/pip3 install onnxruntime && \
+  chmod -R 755 /GW_Python
 
 #reset ENVS that might be lost in singularity (in writable work directory)
 ENV RETICULATE_PYTHON=/usr/bin/python3
