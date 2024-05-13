@@ -27,7 +27,9 @@ RUN mkdir /GW_Python && \
   tar -zxvf Python-3.8.10.tgz && \
   cd Python-3.8.10 && \
   ./configure --prefix=/GW_Python && \
-  pip3 uninstall -y torch torchvision torchaudio
+  pip3 freeze | xargs pip3 uninstall -y
+
+  
 RUN cd /GW_Python/Python-3.8.10 && \
   make && \
   make install && \
