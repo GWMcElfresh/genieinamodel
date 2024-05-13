@@ -27,10 +27,11 @@ RUN mkdir /GW_Python && \
   tar -zxvf Python-3.8.10.tgz && \
   cd Python-3.8.10 && \
   ./configure --prefix=/GW_Python && \
-  pip uninstall -y torch torchvision torchaudio
+  pip3 uninstall -y torch torchvision torchaudio
 RUN cd /GW_Python/Python-3.8.10 && \
   make && \
   make install && \
+  /GW_Python/bin/pip3 install torch && \
   /GW_Python/bin/pip3 install pykan && \
   /GW_Python/bin/pip3 install onnxruntime && \
   chmod -R 777 /GW_Python
