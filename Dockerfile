@@ -31,7 +31,7 @@ RUN mkdir /GW_Python && \
 RUN cd /GW_Python/Python-3.8.10 && \
   make && \
   make install && \
-  /GW_Python/bin/pip3 install torch && \
+  /GW_Python/bin/pip3 install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cpu && \
   /GW_Python/bin/pip3 install pykan && \
   /GW_Python/bin/pip3 install onnxruntime && \
   chmod -R 777 /GW_Python
