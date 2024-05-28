@@ -13,6 +13,7 @@ RUN R -e "install.packages('tidyverse')" && \
   R -e "devtools::install_github('rcastelo/GSVA')" && \
   R -e "remotes::install_github(repo = 'saezlab/MOFAcellulaR')" && \
   R -e "install.packages('fastDummies')" && \
+  R -e "install.packages(c('FNN', 'igraph', 'future.apply'))" && \
   pip install mofapy2 && \
   pip install scdef && \
   pip cache purge && \
