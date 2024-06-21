@@ -14,7 +14,11 @@ Depends:
 Imports:
     tidyverse,
     bayesplot, 
-    brms
+    brms, 
+    forcats, 
+    progress, 
+    future, 
+    twosamples
 Suggests: 
     testthat (>= 3.0.0)
 Config/testthat/edition: 3
