@@ -20,7 +20,7 @@ RUN R -e "install.packages('tidyverse')" && \
   apt-get clean && \
   rm -rf /var/lib/apt/lists/* && \
   R -e "library(cmdstanr);library(brms);dir.create('/cmdstan', showWarnings = FALSE);cmdstanr::install_cmdstan(dir='/cmdstan', version = '2.32.2');cmdstanr::set_cmdstan_path(path = list.dirs('/cmdstan')[[2]])" && \
-  RUN chmod -R 777 /cmdstan/* && \
+  chmod -R 777 /cmdstan/* && \
   gzip -r /cmdstan
 
 #ENTRYPOINT ["/bin/bash", "-l", "-c"]
