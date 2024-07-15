@@ -21,7 +21,7 @@ RUN R -e "install.packages('tidyverse')" && \
   rm -rf /var/lib/apt/lists/* && \
   mkdir /work/ && \
   R -e "library(cmdstanr);library(brms);dir.create('/work/cmdstan', showWarnings = FALSE);cmdstanr::install_cmdstan(dir='/work/cmdstan', version = '2.32.2');cmdstanr::set_cmdstan_path(path = list.dirs('/work/cmdstan')[[2]])" && \
-  gzip -r /work/cmdstan
+  gzip -r /work/cmdstan /work/cmdstan.gz
 
 #ENTRYPOINT ["/bin/bash", "-l", "-c"]
 
