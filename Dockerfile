@@ -8,14 +8,14 @@ RUN R -e "install.packages('tidyverse')" && \
   R -e "install.packages('MCMCglmm')" && \
   R -e "devtools::install_github('paul-buerkner/brms')" && \
   R -e "devtools::install_github(repo = 'bimberlabinternal/Rdiscvr', upgrade = 'never')" && \
-  R -e "remotes::install_github(repo = 'ChangSuBiostats/CS-CORE')" && \
-  R -e "remotes::install_github(repo = 'jishnu-lab/SLIDE')" && \
-  R -e "devtools::install_github('rcastelo/GSVA')" && \
-  R -e "remotes::install_github(repo = 'saezlab/MOFAcellulaR')" && \
+ # R -e "remotes::install_github(repo = 'ChangSuBiostats/CS-CORE')" && \
+ # R -e "remotes::install_github(repo = 'jishnu-lab/SLIDE')" && \
+ # R -e "devtools::install_github('rcastelo/GSVA')" && \
+ # R -e "remotes::install_github(repo = 'saezlab/MOFAcellulaR')" && \
   R -e "install.packages('fastDummies')" && \
   R -e "install.packages(c('FNN', 'igraph', 'future.apply', 'kernlab', 'forcats', 'progressr', 'future', 'twosamples', 'tidybayes', 'ggdist'))" && \
-  pip install mofapy2 && \
-  pip install scdef && \
+# pip install mofapy2 && \
+#  pip install scdef && \
   pip cache purge && \
   apt-get clean && \
   rm -rf /var/lib/apt/lists/* && \
