@@ -4,12 +4,12 @@
 \name{CmdstanrBrmsImage-package}
 \alias{CmdstanrBrmsImage}
 \alias{CmdstanrBrmsImage-package}
-\title{CmdstanrBrmsImage: What the Package Does (One Line, Title Case)}
+\title{CmdstanrBrmsImage: Make the HPC Like Bayesian Statistics}
 \description{
 What the package does (one paragraph).
 }
 \author{
-\strong{Maintainer}: First Last \email{first.last@example.com} (\href{https://orcid.org/YOUR-ORCID-ID}{ORCID})
+\strong{Maintainer}: GW McElfresh \email{mcelfreshgw@gmail.com}
 
 }
 \keyword{internal}
