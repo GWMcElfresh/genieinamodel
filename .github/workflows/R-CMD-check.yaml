@@ -95,6 +95,7 @@ jobs:
           remotes::install_cran("rcmdcheck")
           install.packages('cmdstanr', repos = c('https://mc-stan.org/r-packages/', getOption('repos')))
           install.packages(c('torch', 'luz'))
+          install.packages("Seurat")
           torch::install_torch()
         shell: Rscript {0}
 
