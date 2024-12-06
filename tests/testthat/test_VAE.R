@@ -67,9 +67,6 @@ test_that("Forward pass works end-to-end", {
 })
 
 test_that("Model trains on pbmc_small data and reduces loss", {
-  library(Seurat)
-  library(torch)
-  
   # Load and preprocess pbmc_small dataset
   data("pbmc_small")
   pbmc_data <- scrnaseqDataLoader(pbmc_small, layer = "counts")
