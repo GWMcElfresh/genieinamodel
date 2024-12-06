@@ -106,7 +106,7 @@ VAE_HurdleGaussian <- nn_module(
 #' @export
 
 hurdleGaussianLoss <- function(pZero, positiveParams, rawData) {
-  #Separate zero and non-zero parts of x
+  #Separate zero and non-zero parts of rawData
   is_zero <- (rawData == 0)
   non_zero <- (rawData > 0)
   
@@ -117,7 +117,7 @@ hurdleGaussianLoss <- function(pZero, positiveParams, rawData) {
   mu <- positiveParams[[1]]
   logvar <- positiveParams[[2]]
   gaussian_loss <- 0.5 * torch_sum(logvar[non_zero]) +
-    torch_sum((x[non_zero] - mu[non_zero])^2 / torch_exp(logvar[non_zero]))
+    torch_sum((rawData[non_zero] - mu[non_zero])^2 / torch_exp(logvar[non_zero]))
   
   #combine losses
   #TODO: weight the losses?

@@ -9,7 +9,9 @@ scrnaseqDataLoader(seuratObj, assay = "RNA", layer = "data")
 \arguments{
 \item{seuratObj}{Seurat Object containing single cell RNASeq data.}
 
-\item{layer}{}
+\item{assay}{The name of the assay containing the data.}
+
+\item{layer}{Seurat object's layer.}
 }
 \value{
 A dataset loader for single cell RNASeq data.
