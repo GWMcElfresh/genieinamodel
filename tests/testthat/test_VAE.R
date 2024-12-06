@@ -31,9 +31,9 @@ test_that("Decoder produces correct outputs", {
   p_zero <- model$decode_zero(z)
   positive_params <- model$decode_positive(z)
   
-  expect_equal(p_zero$shape, c(batch_size, input_dim)) # Zero-inflation probabilities
-  expect_equal(positive_params[[1]]$shape, c(batch_size, input_dim)) # Positive mean
-  expect_equal(positive_params[[2]]$shape, c(batch_size, input_dim)) # Positive logvar
+  expect_equal(p_zero$shape, c(batch_size, input_dim)) #zero-inflation probabilities
+  expect_equal(positive_params[[1]]$shape, c(batch_size, input_dim)) #positive mean
+  expect_equal(positive_params[[2]]$shape, c(batch_size, input_dim)) #positive logvar
 })
 
 test_that("Loss function computes correctly", {
@@ -43,12 +43,12 @@ test_that("Loss function computes correctly", {
   model <- VAE_HurdleGaussian(input_dim, latent_dim)
   
   x <- torch_randn(batch_size, input_dim)
-  p_zero <- torch_sigmoid(torch_randn(batch_size, input_dim)) # Simulated outputs
+  p_zero <- torch_sigmoid(torch_randn(batch_size, input_dim)) #simulated outputs
   positive_params <- list(torch_randn(batch_size, input_dim), torch_randn(batch_size, input_dim))
   
   loss <- hurdle_gaussian_loss(p_zero, positive_params, x)
-  expect_type(as_array(loss), "double") # Ensure loss is numeric
-  expect_length(loss, 1) # Ensure loss is a scalar
+  expect_type(as_array(loss), "double") #ensure loss is numeric
+  expect_length(loss, 1) #ensure loss is a scalar
 })
 
 test_that("Forward pass works end-to-end", {
@@ -60,61 +60,62 @@ test_that("Forward pass works end-to-end", {
   x <- torch_randn(batch_size, input_dim)
   outputs <- model(x)
   
-  expect_equal(length(outputs), 4) # Ensure we have all expected outputs
+  expect_equal(length(outputs), 4) #ensure we have all expected outputs
   expect_equal(outputs[[1]]$shape, c(batch_size, input_dim)) # p_zero
-  expect_equal(outputs[[2]][[1]]$shape, c(batch_size, input_dim)) # Positive mu
-  expect_equal(outputs[[2]][[2]]$shape, c(batch_size, input_dim)) # Positive logvar
+  expect_equal(outputs[[2]][[1]]$shape, c(batch_size, input_dim)) #positive mu
+  expect_equal(outputs[[2]][[2]]$shape, c(batch_size, input_dim)) #positive logvar
 })
 
 test_that("Model trains on pbmc_small data and reduces loss", {
-  # Load and preprocess pbmc_small dataset
+  #load and preprocess pbmc_small dataset
+  library(Seurat)
   data("pbmc_small")
-  pbmc_data <- scrnaseqDataLoader(pbmc_small, layer = "counts")
-  
-  
-  
-  # Hyperparameters
+  pbmc_data <- scrnaseqDataLoader(pbmc_small, layer = "data")
+
+  #hyperparameters
   input_dim <- nrow(pbmc_small)
   latent_dim <- 10
   batch_size <- 16
   num_epochs <- 5
-  learning_rate <- 0.01
+  learning_rate <- 0.001
   
-  # Create dataset instance
+  #create dataset instance
   pbmc_dataset <- scrnaseqDataLoader(pbmc_small)
   
-  # Create data loader
+  #create data loader
   data_loader <- dataloader(pbmc_dataset, batch_size = batch_size, shuffle = TRUE)
   
-  # Initialize model, optimizer, and loss function
+  #initialize model, optimizer, and loss function
   model <- VAE_HurdleGaussian(input_dim, latent_dim)
   optimizer <- optim_adam(model$parameters, lr = learning_rate)
   
-  # Training loop
+  #training loop
+  losses <- c()
   for (epoch in 1:num_epochs) {
     total_loss <- 0
     
     coro::loop(for (x in data_loader) {
       optimizer$zero_grad()
       
-      # Forward pass
+      #forward pass
       outputs <- model(x)
       p_zero <- outputs[[1]]
       positive_params <- outputs[[2]]
       
-      # Compute loss
+      #compute loss
       loss <- hurdle_gaussian_loss(p_zero, positive_params, x)
       total_loss <- total_loss + loss$item()
       
-      # Backward pass and optimization
+      #backward pass and optimization
       loss$backward()
       optimizer$step()
     })
-    
-    # Print loss for each epoch
+    #store loss
+    losses[epoch] <- total_loss
+    #print loss
     cat(sprintf("Epoch %d, Loss: %.4f\n", epoch, total_loss))
   }
   
-  # Test if the loss decreases significantly
-  expect_true(total_loss < 100) # Adjust threshold based on pbmc_small scale
+  #test if the loss decreases significantly
+  expect_true(losses[5]/losses[1] < 0.5) #50% decrease in loss over the first couple epochs
 })

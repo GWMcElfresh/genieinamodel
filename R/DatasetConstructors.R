@@ -7,7 +7,7 @@
 scrnaseqDataLoader <- function(seuratObj, layer = 'data') {
   seuratDataset <- dataset(
     initialize = function(seuratObj) {
-      self$data <- Seurat::GetAssayData(seuratObj, slot = layer) %>% 
+      self$data <- Seurat::GetAssayData(seuratObj, layer = layer) %>% 
         as.matrix() %>% 
         Matrix::t() %>% 
         torch_tensor(., dtype = torch_float())
