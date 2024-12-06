@@ -20,7 +20,8 @@ Imports:
     future, 
     twosamples, 
     torch, 
-    luz
+    luz, 
+    Seurat
 Suggests: 
     testthat (>= 3.0.0)
 Config/testthat/edition: 3
