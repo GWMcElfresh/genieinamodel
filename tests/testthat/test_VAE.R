@@ -103,7 +103,9 @@ test_that("Model trains on pbmc_small data and reduces loss", {
       positive_params <- outputs[[2]]
       
       #compute loss
-      loss <- hurdle_gaussian_loss(p_zero, positive_params, x)
+      loss <- hurdleGaussianLoss(pZero = p_zero, 
+                                   positiveParams = positive_params, 
+                                   rawData = x)
       total_loss <- total_loss + loss$item()
       
       #backward pass and optimization

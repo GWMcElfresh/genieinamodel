@@ -3,10 +3,8 @@
 #' @param input_dim The number of input features.
 #' @param latent_dim The number of latent dimensions.
 #' @return A VAE module with a hurdle Gaussian decoder.
-#' @export
 #' @import torch luz
-#' 
-
+#' @export
 
 #Define the VAE model with a hurdle Gaussian decoder
 VAE_HurdleGaussian <- nn_module(
@@ -93,24 +91,31 @@ VAE_HurdleGaussian <- nn_module(
     mu <- mu_logvar[[1]]
     logvar <- mu_logvar[[2]]
     z <- self$reparameterize(mu, logvar)
-    p_zero <- self$decode_zero(z)
-    positive_params <- self$decode_positive(z)
-    return(list(p_zero, positive_params, mu, logvar))
+    pZero <- self$decode_zero(z)
+    positiveParams <- self$decode_positive(z)
+    return(list(pZero, positiveParams, mu, logvar))
   }
 )
 
-#hurdle gaussian loss
-hurdle_gaussian_loss <- function(p_zero, positive_params, x) {
+#' @title Calculate Loss for Hurdle Gaussian model 
+#' @description This module calculates the loss for a VAE with a hurdle Gaussian decoder.
+#' 
+#' @param pZero Bernoulli probability for zero-inflation component.
+#' @param positiveParams List containing the mean and log-variance for the Gaussian component.
+#' @param rawData output data from the model's forward pass
+#' @export
+
+hurdleGaussianLoss <- function(pZero, positiveParams, rawData) {
   #Separate zero and non-zero parts of x
-  is_zero <- (x == 0)
-  non_zero <- (x > 0)
+  is_zero <- (rawData == 0)
+  non_zero <- (rawData > 0)
   
   #bernoulli loss for zero-inflation
-  bernoulli_loss <- nnf_binary_cross_entropy(p_zero, is_zero$float(), reduction = "sum")
+  bernoulli_loss <- nnf_binary_cross_entropy(pZero, is_zero$float(), reduction = "sum")
   
   #gaussian loss for positive values
-  mu <- positive_params[[1]]
-  logvar <- positive_params[[2]]
+  mu <- positiveParams[[1]]
+  logvar <- positiveParams[[2]]
   gaussian_loss <- 0.5 * torch_sum(logvar[non_zero]) +
     torch_sum((x[non_zero] - mu[non_zero])^2 / torch_exp(logvar[non_zero]))
   
