@@ -4,10 +4,12 @@
 \alias{scrnaseqDataLoader}
 \title{Single Cell RNASeq Dataset Loader}
 \usage{
-scrnaseqDataLoader(seuratObj, layer = "data")
+scrnaseqDataLoader(seuratObj, assay = "RNA", layer = "data")
 }
 \arguments{
-\item{data}{A matrix of single cell RNASeq data.}
+\item{seuratObj}{Seurat Object containing single cell RNASeq data.}
+
+\item{layer}{}
 }
 \value{
 A dataset loader for single cell RNASeq data.
