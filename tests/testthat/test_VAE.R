@@ -46,7 +46,7 @@ test_that("Loss function computes correctly", {
   p_zero <- torch_sigmoid(torch_randn(batch_size, input_dim)) #simulated outputs
   positive_params <- list(torch_randn(batch_size, input_dim), torch_randn(batch_size, input_dim))
   
-  loss <- hurdle_gaussian_loss(p_zero, positive_params, x)
+  loss <- hurdleGaussianLoss(pZero = p_zero, positiveParams =  positive_params, rawData = x)
   expect_type(as_array(loss), "double") #ensure loss is numeric
   expect_length(loss, 1) #ensure loss is a scalar
 })
@@ -97,15 +97,17 @@ test_that("Model trains on pbmc_small data and reduces loss", {
     coro::loop(for (x in data_loader) {
       optimizer$zero_grad()
       
+      data <- x
+      
       #forward pass
-      outputs <- model(x)
+      outputs <- model(data)
       p_zero <- outputs[[1]]
       positive_params <- outputs[[2]]
       
       #compute loss
       loss <- hurdleGaussianLoss(pZero = p_zero, 
-                                   positiveParams = positive_params, 
-                                   rawData = x)
+                                 positiveParams = positive_params, 
+                                 rawData = data)
       total_loss <- total_loss + loss$item()
       
       #backward pass and optimization
