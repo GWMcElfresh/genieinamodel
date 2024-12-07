@@ -36,7 +36,7 @@ jobs:
       - uses: r-lib/actions/setup-pandoc@v2
 
 #      - name: Install packages
-#        if: runner.os != 'Windows'
+#       if: runner.os != 'Windows'
 #        run: |
 #          sudo apt-get update && sudo apt-get install -yq python3-pip
 #          python3 -m pip install --upgrade pip
@@ -81,6 +81,8 @@ jobs:
       - name: Install system dependencies
         if: runner.os == 'Linux'
         run: |
+          sudo apt-get update
+          sudo apt-get install -y libharfbuzz-dev libfribidi-dev libfreetype-dev
           while read -r cmd
           do
             eval sudo $cmd
