@@ -10,19 +10,12 @@ Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.2
 LazyData: true
 Depends:
-    R (>= 4.2.0)
+    R (>= 4.3.0)
 Imports:
-    tidyverse,
-    bayesplot, 
-    brms, 
-    forcats, 
-    progress, 
-    future, 
-    twosamples, 
     torch, 
     luz, 
     Seurat, 
-    SeuratObject
+    Matrix
 Suggests: 
     testthat (>= 3.0.0)
 Config/testthat/edition: 3
