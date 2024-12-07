@@ -1,3 +1,5 @@
+utils::globalVariables(c("self"))
+
 #' @title Single Cell RNASeq Dataset Loader
 #' @description This module defines a dataset loader for single cell RNASeq data.
 #' @param seuratObj Seurat Object containing single cell RNASeq data.
@@ -16,7 +18,7 @@ scrnaseqDataLoader <- function(seuratObj,
                                         layer = layer) %>% 
         as.matrix() %>% 
         Matrix::t() %>% 
-        torch_tensor(., dtype = torch_float())
+        torch_tensor(dtype = torch_float())
     },
     
     .getitem = function(index) {
