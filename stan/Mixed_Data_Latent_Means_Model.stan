@@ -8,8 +8,7 @@
 // The data are represented "properly", using appropriate parametric distributions
 // to evaluate the likelihoods (whose parameters are proportional to the latent means). 
 
-// TODO: negative binomial likelihood evaluation doesn't sample dispersion, which it should. 
-// TBD if an empirical bayes shrinkage should be used there (similar to Smyth's moderated statistics)
+// TODO: TBD if an empirical bayes shrinkage should be used on the NB dispersions (similar to Smyth's moderated statistics)
 
 data {
   int<lower=0> N;           // Number of samples
