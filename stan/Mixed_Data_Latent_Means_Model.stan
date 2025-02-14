@@ -12,52 +12,92 @@
 // TBD if an empirical bayes shrinkage should be used there (similar to Smyth's moderated statistics)
 
 data {
-  int<lower=1> N;                  // Number of observations
-  int<lower=1> P;                  // Number of variables
-  int<lower=1> K;                  // Number of ordinal categories
-  matrix[N, P] continuous_data;    // Continuous data (Gaussian)
-  array[N, P] int<lower=0, upper=1> binary_data; // Binary data
-  array[N, P] int<lower=0, upper=K> ordinal_data; // Ordinal data
-  array[N, P] int<lower=0> count_data;   // Count data (geometric)
+  int<lower=0> N;           // Number of samples
+  int<lower=0> P;           // Number of variables
+  int<lower=0> P_continuous; // Number of continuous variables
+  int<lower=0> P_binary; // Number of binary variables
+  int<lower=0> P_count;  // Number of count variables
+  int<lower=0> P_ordinal; //Number of ordinal variables
+  int<lower=1> O; // Number of categories that the ordinal variable can take on
+  matrix[N,P_continuous] continuous_data; // Continuous variables
+  array[N,P_binary] int<lower=0, upper=1> binary_data; // Binary variables
+  array[N,P_ordinal] int<lower=1> ordinal_data; // Ordinal variables
+  array[N,P_count] int<lower=0> count_data; // Count variables
+  array[P] int<lower=1, upper=4> var_types; // Variable types: 1=continuous, 2=binary, 3=ordinal
 }
 
 parameters {
-  matrix[P, P] Z;                  // Latent adjacency weights
-  matrix[N, P] mu;                 // Node-specific mean parameters
-  vector<lower=0>[P] sigma;        // Standard deviations for Gaussian
-  ordered[K - 1] cutpoints;        // Cutpoints for ordinal data
+  matrix<lower=0, upper=1>[P, P] edge_probs_upper; // Upper triangular edge probabilities
+  vector[P] latent_means;      // Latent variable means
+  real<lower=0> latent_sd;     // Latent variable standard deviation
+  ordered[O] thresholds;       // Ordered thresholds for ordinal data
+  real<lower=0> phi;          // Dispersion parameter for Negative Binomial
 }
 
 transformed parameters {
-  matrix[P, P] A;                  // Relaxed adjacency matrix
-  A = inv_logit(Z);                // Sigmoid transformation
-}
-
-model {
-  // Priors
-  to_vector(Z) ~ normal(0, 1);         // Sparsity-inducing prior
-  sigma ~ exponential(1);             // Half-Cauchy or Exponential prior
-  cutpoints ~ normal(0, 1);           // Prior for ordinal cutpoints
+  matrix<lower=0, upper=1>[P, P] edge_probs; // Symmetric edge probabilities
   
-  // Likelihood
-  for (n in 1:N) {
-    for (i in 1:P) {
-      for (j in 1:P) {
-        if (i != j) {
-          // Continuous data likelihood
-          target += normal_lpdf(continuous_data[n, i] | A[i, j] * mu[n, j], sigma[j]);
-          
-          // Binary data likelihood (logistic regression)
-          target += bernoulli_logit_lpmf(binary_data[n, i] | A[i, j] * mu[n, j]);
-          
-          // Ordinal data likelihood
-          target += ordered_logistic_lpmf(ordinal_data[n, i] | A[i, j] * mu[n, j], cutpoints);
-          
-          // Count data likelihood (geometric with log-link)
-          target += neg_binomial_2_log_lpmf(count_data[n, i] | A[i, j] * mu[n, j], 1);  // 1 is dispersion parameter
-        }
+  // Fill edge_probs with the upper triangular matrix and enforce symmetry
+  for (i in 1:P) {
+    for (j in 1:P) {
+      if (i < j) {
+        edge_probs[i, j] = edge_probs_upper[i, j];
+        edge_probs[j, i] = edge_probs_upper[i, j];
+      } else if (i == j) {
+        edge_probs[i, j] = 0; // No self-loops
       }
     }
   }
 }
 
+model {
+  // Prior on edge probabilities
+  for (i in 1:(P - 1)) {
+    for (j in (i + 1):P) {
+      edge_probs_upper[i, j] ~ beta(2, 2); // Example prior
+    }
+  }
+
+  // Likelihood for mixed data conditioned on graph connectivity
+  // Continuous variables
+  for (p in 1:P_continuous) {
+    for (n in 1:N) {
+      continuous_data[n, p] ~ normal(latent_means[p], latent_sd);
+    }
+  }
+
+  // Binary variables
+  for (p in 1:P_binary) {
+    for (n in 1:N) {
+      binary_data[n, p] ~ bernoulli_logit(latent_means[P_continuous + p]);
+    }
+  }
+
+  // Ordinal variables
+  for (p in 1:P_ordinal) {
+    for (n in 1:N) {
+      ordinal_data[n, p] ~ ordered_logistic(latent_means[p], thresholds);
+    }
+  }
+  
+  for (p in 1:P_count) {
+    for (n in 1:N) {
+      count_data[n, p] ~ neg_binomial_2(latent_means[p], phi);  // Negative Binomial likelihood
+    }
+  }
+}
+
+
+  generated quantities {
+    matrix[P, P] sampled_graph; // Binary adjacency matrix
+    for (i in 1:P) {
+      for (j in 1:P) {
+        if (i < j) {
+          sampled_graph[i, j] = bernoulli_rng(edge_probs[i, j]);
+          sampled_graph[j, i] = sampled_graph[i, j]; // Symmetry
+        } else {
+          sampled_graph[i, j] = 0; // No self-loops
+        }
+      }
+    }
+  }
