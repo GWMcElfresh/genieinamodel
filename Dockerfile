@@ -15,7 +15,7 @@ RUN R -e "install.packages('tidyverse')" && \
   R -e "install.packages('fastDummies')" && \
   R -e "install.packages(c('FNN', 'igraph', 'future.apply', 'kernlab', 'forcats', 'progressr', 'future', 'twosamples', 'tidybayes', 'ggdist', 'luz', 'torch', 'data.table'))" && \
 # pip install mofapy2 && \
-#  pip install scdef && \
+# pip install scdef && \
   pip cache purge && \
   apt-get clean && \
   rm -rf /var/lib/apt/lists/* && \

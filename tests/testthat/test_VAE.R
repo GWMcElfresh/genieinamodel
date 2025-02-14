@@ -70,7 +70,6 @@ test_that("Model trains on pbmc_small data and reduces loss", {
   #load and preprocess pbmc_small dataset
   library(Seurat)
   data("pbmc_small")
-  pbmc_data <- scrnaseqDataLoader(pbmc_small, layer = "data")
 
   #hyperparameters
   input_dim <- nrow(pbmc_small)
@@ -80,7 +79,7 @@ test_that("Model trains on pbmc_small data and reduces loss", {
   learning_rate <- 0.001
   
   #create dataset instance
-  pbmc_dataset <- scrnaseqDataLoader(pbmc_small)
+  pbmc_dataset <- scrnaseqDataLoader(pbmc_small, layer = 'data')
   
   #create data loader
   data_loader <- dataloader(pbmc_dataset, batch_size = batch_size, shuffle = TRUE)

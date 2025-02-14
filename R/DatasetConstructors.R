@@ -13,12 +13,13 @@ scrnaseqDataLoader <- function(seuratObj,
                                layer = 'data') {
   seuratDataset <- dataset(
     initialize = function(seuratObj) {
-      self$data <- Seurat::GetAssayData(seuratObj, 
+       data <- Seurat::GetAssayData(seuratObj, 
                                         assay = assay, 
                                         layer = layer) %>% 
         as.matrix() %>% 
-        Matrix::t() %>% 
-        torch_tensor(dtype = torch_float())
+        Matrix::t() 
+       
+        self$data <- torch_tensor(data, dtype = torch_float())
     },
     
     .getitem = function(index) {
