@@ -2,6 +2,11 @@ FROM ghcr.io/bimberlabinternal/cellmembrane:latest
 
 ARG DEBIAN_FRONTEND=noninteractive
 
+RUN apt-get update && apt-get install -y && \
+    apt-get install clang \ 
+    build-essential && \
+    rm -rf /var/lib/apt/lists/*
+
 RUN R -e "install.packages('tidyverse')" && \
   R -e "install.packages('cmdstanr', repos = c('https://mc-stan.org/r-packages/', getOption('repos')))" && \
   R -e "install.packages('RcppParallel')" && \
