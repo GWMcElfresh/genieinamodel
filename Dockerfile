@@ -2,8 +2,9 @@ FROM ghcr.io/bimberlabinternal/cellmembrane:latest
 
 ARG DEBIAN_FRONTEND=noninteractive
 
-RUN apt-get update && apt-get install -y && \
-    apt-get install clang \ 
+RUN apt-get update && apt-get upgrade -y && \
+    apt-get install -y \
+    clang \ 
     build-essential && \
     rm -rf /var/lib/apt/lists/*
 
