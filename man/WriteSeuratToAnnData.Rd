@@ -15,6 +15,8 @@ WriteSeuratToAnnData(
 \arguments{
 \item{seuratObj}{Seurat object to write.}
 
+\item{assayName}{Name of the Seurat assay to write to AnnData.}
+
 \item{layer}{Seurat layer to write to AnnData.}
 
 \item{overwrite}{Overwrite the file if it already exists.}
