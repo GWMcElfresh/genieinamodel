@@ -40,7 +40,7 @@ jobs:
         run: |
           install.packages('cmdstanr', repos = c('https://mc-stan.org/r-packages/', getOption('repos')))
           cmdstanr::install_cmdstan()
-          install.packages(c("tidyverse", "torch", "luz", "Seurat"))
+          install.packages(c("tidyverse", "torch", "luz", "Seurat", "brms"))
           torch::install_torch()
         shell: Rscript {0}
 
