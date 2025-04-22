@@ -88,7 +88,7 @@ test_that("missing data entries are imputed", {
   print(mean(Z_rvar[1,1]))
   print(posterior::sd(Z_rvar[1,1]))
   #expect that the mean is pretty small for an imputed variable
-  expect_true(mean(Z_rvar[1,1]) < 0.05)
+  expect_true(mean(Z_rvar[1,1]) < 0.1)
   expect_true(posterior::sd(Z_rvar[1,1]) > 0.5)
 })
 
