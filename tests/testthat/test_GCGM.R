@@ -6,13 +6,13 @@ context("GCGM sparse counts missing")
 
 
 test_that("Stan syntax is valid", {
-  mod <- cmdstan_model("stan/GCGM_With_Imputation.stan", compile = FALSE)
+  mod <- cmdstan_model(system.file("stan/GCGM_With_Imputation.stan", package = "genieinamodel"), compile = FALSE)
   expect_true(mod$check_syntax())
 })
 
 
 test_that("model compiles to an executable", {
-  mod <- cmdstan_model("stan/GCGM_With_Imputation.stan")
+  mod <- cmdstan_model(system.file("stan/GCGM_With_Imputation.stan", package = "genieinamodel"))
   expect_true(file.exists(mod$exe_file()))
 })
 
@@ -39,7 +39,7 @@ simulate_data <- function() {
 #sampling & output structure
 test_that("sampling runs and returns correct structure", {
   stan_data <- simulate_data()
-  mod <- cmdstan_model("../../stan/GCGM_With_Imputation.stan")
+  mod <- cmdstan_model(system.file("stan/GCGM_With_Imputation.stan", package = "genieinamodel"))
   fit <- mod$sample(data = stan_data, chains = 1, iter_warmup = 50,
                     iter_sampling = 50, seed = 123, refresh = 0)
   expect_s3_class(fit, "CmdStanMCMC")
@@ -55,7 +55,7 @@ test_that("missing data entries are imputed", {
   sd <- simulate_data()
   sd$miss[1,1] <- 1
   sd$Y_cont[1,1] <- 0
-  mod <- cmdstan_model("../../stan/GCGM_With_Imputation.stan")
+  mod <- cmdstan_model(system.file("stan/GCGM_With_Imputation.stan", package = "genieinamodel"))
   expect_error(fit <- mod$sample(data = sd, chains = 1, iter_sampling = 50,
                                  iter_warmup = 50, seed = 123, refresh = 0),
                NA)
