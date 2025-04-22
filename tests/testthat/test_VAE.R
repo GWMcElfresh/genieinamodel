@@ -1,3 +1,4 @@
+library(testthat)
 test_that("VAE_HurdleGaussian initializes correctly", {
   input_dim <- 100
   latent_dim <- 10
@@ -111,6 +112,7 @@ test_that("Model trains on pbmc_small data and reduces loss", {
       
       #backward pass and optimization
       loss$backward()
+      torch::nn_utils_clip_grad_norm_(model$parameters, max_norm = 1.0)
       optimizer$step()
     })
     #store loss
