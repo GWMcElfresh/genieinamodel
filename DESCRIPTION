@@ -15,7 +15,8 @@ Imports:
     torch, 
     luz, 
     Seurat, 
-    Matrix
+    Matrix, 
+    DropletUtils
 Suggests: 
     testthat (>= 3.0.0),
     knitr
@@ -23,4 +24,5 @@ Config/testthat/edition: 3
 Collate: 
     'DatasetConstructors.R'
     'VAE.R'
+    'utils.R'
 VignetteBuilder: knitr
