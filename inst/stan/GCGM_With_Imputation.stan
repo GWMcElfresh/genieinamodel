@@ -1,4 +1,6 @@
 data {
+  int<lower=1> P;                    // total latent dims
+  matrix[P,P] R_fixed;               // user‐specified correlations
   int<lower=1> N;                 // obs
   int<lower=1> D;                 // variables
   int<lower=1> maxK;              // max categories
@@ -30,11 +32,10 @@ transformed data {
       idx += 1;             // increment by 1 explicitly
     }
   }
-  int P = idx - 1;
 }
 
 parameters {
-  cholesky_factor_corr[P] L_corr;   // Cholesky factor of the latent correlation matrix
+  cholesky_factor_corr[P] L_corr ;    // free correlations
   vector<lower=0>[P]     tau;       // positive scales (std devs) per latent dim
   matrix[N, P]           Z;         // latent utilities for all observations
   vector<lower=0>[D]     sigma;     // continuous response sds
@@ -43,15 +44,24 @@ parameters {
 }
 
 transformed parameters {
-  matrix[P, P] L;           // Cholesky factor of the covariance matrix
-  L = diag_pre_multiply(tau, L_corr);
+  matrix[P,P] L;                     // full covariance Cholesky
+  for (i in 1:P) {
+    for (j in 1:P)
+      // Change condition to != 0 to allow fixing any non-zero correlation
+      L[i,j] = (R_fixed[i,j] != 0 ?  // if user fixed
+                R_fixed[i,j] :
+                (i >= j ? L_corr [i,j] : 0));
+  }
+  L = diag_pre_multiply(tau, L);
 }
 
 model {
   // Priors on covariance structure
-  L_corr ~ lkj_corr_cholesky(1);   // LKJ(1) on correlation :contentReference[oaicite:5]{index=5}
-  tau    ~ cauchy(0, 1);           // global/local shrinkage :contentReference[oaicite:6]{index=6}
-
+  L_corr  ~ lkj_corr_cholesky(1);   // LKJ(1) on correlation 
+  tau    ~ cauchy(0, 1);           // global/local shrinkage
+  
+  //L_corr [i,j] ~ normal(fixed_value, 1e-6); #optionally, use tight priors on specific correlations
+  
   // Priors on margins
   sigma  ~ normal(1, 0.5);
   phi    ~ cauchy(0, 2);
@@ -87,4 +97,16 @@ model {
       }
     }
   }
+}
+generated quantities {
+  // Reconstruct full covariance and correlation matrices
+  matrix[P,P] Sigma_out = multiply_lower_tri_self_transpose(L);
+  matrix[P,P] Corr_out;
+  for (i in 1:P) {
+    for (j in 1:P) {
+      Corr_out[i,j] = Sigma_out[i,j] / (tau[i] * tau[j]);
+    }
+  }
+  // Extract the correlation of interest
+  real corr_12 = Corr_out[1,2];
 }
