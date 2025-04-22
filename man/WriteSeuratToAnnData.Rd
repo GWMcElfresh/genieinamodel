@@ -15,13 +15,13 @@ WriteSeuratToAnnData(
 \arguments{
 \item{seuratObj}{Seurat object to write.}
 
+\item{outputPath}{Path to the output directory.}
+
 \item{assayName}{Name of the Seurat assay to write to AnnData.}
 
 \item{layer}{Seurat layer to write to AnnData.}
 
 \item{overwrite}{Overwrite the file if it already exists.}
-
-\item{ouputPath}{Path to the output directory.}
 }
 \description{
 Write Seurat object to an AnnData-digestable format.
