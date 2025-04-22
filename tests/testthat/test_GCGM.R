@@ -6,13 +6,13 @@ context("GCGM sparse counts missing")
 
 
 test_that("Stan syntax is valid", {
-  mod <- cmdstan_model("../../stan/GCGM_With_Imputation.stan", compile = FALSE)
+  mod <- cmdstan_model("stan/GCGM_With_Imputation.stan", compile = FALSE)
   expect_true(mod$check_syntax())
 })
 
 
 test_that("model compiles to an executable", {
-  mod <- cmdstan_model("../../stan/GCGM_With_Imputation.stan")
+  mod <- cmdstan_model("stan/GCGM_With_Imputation.stan")
   expect_true(file.exists(mod$exe_file()))
 })
 
