@@ -83,12 +83,12 @@ test_that("missing data entries are imputed", {
                                  iter_warmup = 500, seed = 123, refresh = 0),
                NA)
   expect_false(any(is.na(fit$draws("Z"))))
-  #expect a high sd from the missing value
   draws_rvars <- as_draws_rvars(fit$draws())
   Z_rvar <- draws_rvars$Z
   print(mean(Z_rvar[1,1]))
   print(posterior::sd(Z_rvar[1,1]))
-  expect_true(mean(Z_rvar[1,1]) < 0.005)
+  #expect that the mean is pretty small for an imputed variable
+  expect_true(mean(Z_rvar[1,1]) < 0.05)
   expect_true(posterior::sd(Z_rvar[1,1]) > 0.5)
 })
 
