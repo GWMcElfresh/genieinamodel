@@ -35,6 +35,12 @@ jobs:
 
       - uses: r-lib/actions/setup-pandoc@v2
 
+
+      - name: Install dependencies
+          run: |
+            install.packages(c("cmdstanr", "tidyverse"))
+            cmdstanr::install_cmdstan()
+
 #      - name: Install packages
 #       if: runner.os != 'Windows'
 #        run: |
