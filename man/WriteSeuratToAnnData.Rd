@@ -2,7 +2,7 @@
 % Please edit documentation in R/utils.R
 \name{WriteSeuratToAnnData}
 \alias{WriteSeuratToAnnData}
-\title{WriteToAnnData}
+\title{WriteSeuratToAnnData}
 \usage{
 WriteSeuratToAnnData(
   seuratObj,
@@ -15,9 +15,11 @@ WriteSeuratToAnnData(
 \arguments{
 \item{seuratObj}{Seurat object to write.}
 
+\item{layer}{Seurat layer to write to AnnData.}
+
 \item{overwrite}{Overwrite the file if it already exists.}
 
-\item{path}{Path to write the Seurat object to.}
+\item{ouputPath}{Path to the output directory.}
 }
 \description{
 Write Seurat object to an AnnData-digestable format.

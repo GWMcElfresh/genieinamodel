@@ -1,7 +1,8 @@
 #' @title WriteSeuratToAnnData
 #' @description Write Seurat object to an AnnData-digestable format.
 #' @param seuratObj Seurat object to write.
-#' @param path Path to write the Seurat object to.
+#' @param ouputPath Path to the output directory.
+#' @param layer Seurat layer to write to AnnData.
 #' @param overwrite Overwrite the file if it already exists.
 #' @export
 

@@ -2,25 +2,17 @@ library(cmdstanr)
 library(testthat)
 library(posterior)
 
-context("GCGM sparse counts missing")
-
-
 test_that("Stan syntax is valid", {
   mod <- cmdstan_model(system.file("stan/GCGM_With_Imputation.stan", package = "genieinamodel"), compile = FALSE)
   expect_true(mod$check_syntax())
 })
-
 
 test_that("model compiles to an executable", {
   mod <- cmdstan_model(system.file("stan/GCGM_With_Imputation.stan", package = "genieinamodel"))
   expect_true(file.exists(mod$exe_file()))
 })
 
-#skip heavy sampling on CRAN/CI
-skip_on_cran()
-skip_on_ci()
-
-# helper funciton to simulate minimal data (N=5, D=2)
+# helper function to simulate minimal data (N=5, D=2)
 simulate_data <- function() {
   list(
     N = 5, D = 2, maxK = 1,
