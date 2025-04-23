@@ -14,7 +14,7 @@ RUN R -e "install.packages('tidyverse')" && \
   R -e "install.packages('MCMCglmm')" && \
   R -e "devtools::install_github('paul-buerkner/brms')" && \
   R -e "devtools::install_github(repo = 'bimberlabinternal/Rdiscvr', upgrade = 'never')" && \
-  R -e "devtools::install_github('MarioniLab/DropletUtils'" && \
+  R -e "devtools::install_github('MarioniLab/DropletUtils')" && \
  # R -e "remotes::install_github(repo = 'ChangSuBiostats/CS-CORE')" && \
  # R -e "remotes::install_github(repo = 'jishnu-lab/SLIDE')" && \
  # R -e "devtools::install_github('rcastelo/GSVA')" && \
