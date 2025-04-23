@@ -17,6 +17,7 @@ Imports:
     Seurat, 
     Matrix, 
     DropletUtils, 
+    purrr, 
     R.utils
 Suggests: 
     testthat (>= 3.0.0),

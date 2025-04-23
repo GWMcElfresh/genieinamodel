@@ -5,8 +5,8 @@ test_that("VAE_HurdleGaussian initializes correctly", {
   model <- VAE_HurdleGaussian(input_dim, latent_dim)
   
   expect_s3_class(model, "nn_module")
-  expect_equal(model$fc1$weight$shape, c(10000, input_dim))
-  expect_equal(model$fc_mu$weight$shape, c(latent_dim, 500))
+  expect_equal(model$fc1$weight$shape, c(512, input_dim))
+  expect_equal(model$fc_mu$weight$shape, c(latent_dim, 128))
 })
 
 test_that("Encoder produces correct dimensions", {

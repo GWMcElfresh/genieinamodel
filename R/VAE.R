@@ -11,43 +11,39 @@ VAE_HurdleGaussian <- nn_module(
   "VAE_HurdleGaussian",
   initialize = function(input_dim, latent_dim) {
     #encoder layers
-    self$fc1 <- nn_linear(input_dim, 10000)
-    self$fc2 <- nn_linear(10000, 2000)
-    self$fc3 <- nn_linear(2000, 500)
-    self$fc_mu <- nn_linear(500, latent_dim)
-    self$fc_logvar <- nn_linear(500, latent_dim)
+    self$fc1 <- nn_linear(input_dim, 512)
+    self$fc2 <- nn_linear(512, 256)
+    self$fc3 <- nn_linear(256, 128)
+    self$fc_mu <- nn_linear(128, latent_dim)
+    self$fc_logvar <- nn_linear(128, latent_dim)
     
     #decoder layers for zero-inflation component
-    self$fc4_zero <- nn_linear(latent_dim, 500)
-    self$fc5_zero <- nn_linear(500, 2000)
-    self$fc6_zero <- nn_linear(2000, 10000)
-    self$output_zero <- nn_linear(10000, input_dim)  #bernoulli probability
+    self$fc4_zero <- nn_linear(latent_dim, 128)
+    self$fc5_zero <- nn_linear(128, 256)
+    self$fc6_zero <- nn_linear(256, 512)
+    self$output_zero <- nn_linear(512, input_dim)  #bernoulli probability
     
     #decoder layers for positive values
-    self$fc4_positive <- nn_linear(latent_dim, 500)
-    self$fc5_positive <- nn_linear(500, 2000)
-    self$fc6_positive <- nn_linear(2000, 10000)
-    self$output_mu <- nn_linear(10000, input_dim)  #mean for gaussian
-    self$output_logvar <- nn_linear(10000, input_dim)  #log-variance for gaussian
+    self$fc4_positive <- nn_linear(latent_dim, 128)
+    self$fc5_positive <- nn_linear(128, 256)
+    self$fc6_positive <- nn_linear(256, 512)
+    self$output_mu <- nn_linear(512, input_dim)  #mean for gaussian
+    self$output_logvar <- nn_linear(512, input_dim)  #log-variance for gaussian
     
     #dropout
     self$dropout <- nn_dropout(0.3)
     
     #initialize weights in all of the layers
-    torch::nn_init_xavier_uniform_(self$fc1$weight)
-    torch::nn_init_xavier_uniform_(self$fc2$weight)
-    torch::nn_init_xavier_uniform_(self$fc3$weight)
-    torch::nn_init_xavier_uniform_(self$fc_mu$weight)
-    torch::nn_init_xavier_uniform_(self$fc_logvar$weight)
-    torch::nn_init_xavier_uniform_(self$fc4_zero$weight)
-    torch::nn_init_xavier_uniform_(self$fc5_zero$weight)
-    torch::nn_init_xavier_uniform_(self$fc6_zero$weight)
-    torch::nn_init_xavier_uniform_(self$output_zero$weight)
-    torch::nn_init_xavier_uniform_(self$fc4_positive$weight)
-    torch::nn_init_xavier_uniform_(self$fc5_positive$weight)
-    torch::nn_init_xavier_uniform_(self$fc6_positive$weight)
-    torch::nn_init_xavier_uniform_(self$output_mu$weight)
-    torch::nn_init_xavier_uniform_(self$output_logvar$weight)
+    purrr::walk(
+      list(self$fc1, self$fc2, self$fc3, self$fc_mu, self$fc_logvar,
+           self$fc4_zero, self$fc5_zero, self$fc6_zero, self$output_zero,
+           self$fc4_positive, self$fc5_positive, self$fc6_positive, 
+           self$output_mu, self$output_logvar),
+      function(layer) {
+        nn_init_xavier_uniform_(layer$weight)
+        nn_init_constant_(layer$bias, 0)
+      }
+    )
   },
   
   #encoder forward pass
@@ -57,6 +53,7 @@ VAE_HurdleGaussian <- nn_module(
     h3 <- nnf_relu(self$fc3(h2))
     mu <- self$fc_mu(h3)
     logvar <- self$fc_logvar(h3)
+    logvar <- torch_clamp(logvar, min = -20, max = 20) #clamp logvar
     return(list(mu, logvar))
   },
   
@@ -82,6 +79,8 @@ VAE_HurdleGaussian <- nn_module(
     h6 <- nnf_relu(self$fc6_positive(h5))
     mu <- self$output_mu(h6)
     logvar <- self$output_logvar(h6)
+    #clamp logvar to prevent huge exponentials
+    logvar <- torch_clamp(logvar, min = -20, max = 20)
     return(list(mu, logvar))
   },
   
