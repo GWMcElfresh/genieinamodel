@@ -7,6 +7,6 @@
 # * https://testthat.r-lib.org/articles/special-files.html
 
 library(testthat)
-library(CmdstanrBrmsImage)
+library(genieinamodel)
 
-test_check("CmdstanrBrmsImage")
+test_check("genieinamodel")

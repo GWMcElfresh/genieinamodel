@@ -35,6 +35,15 @@ jobs:
 
       - uses: r-lib/actions/setup-pandoc@v2
 
+
+      - name: Install cmdstanr and other dependencies
+        run: |
+          install.packages('cmdstanr', repos = c('https://mc-stan.org/r-packages/', getOption('repos')))
+          cmdstanr::install_cmdstan()
+          install.packages(c("tidyverse", "torch", "luz", "Seurat", "brms"))
+          torch::install_torch()
+        shell: Rscript {0}
+
 #      - name: Install packages
 #       if: runner.os != 'Windows'
 #        run: |

@@ -1,4 +1,4 @@
-Package: CmdstanrBrmsImage
+Package: genieinamodel
 Title: Make the HPC Like Bayesian Statistics
 Version: 0.0.0.9000
 Authors@R: 
@@ -7,18 +7,23 @@ Description: What the package does (one paragraph).
 License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.2.3
+RoxygenNote: 7.3.2
 LazyData: true
 Depends:
-    R (>= 4.2.0)
+    R (>= 4.3.0)
 Imports:
-    tidyverse,
-    bayesplot, 
-    brms, 
-    forcats, 
-    progress, 
-    future, 
-    twosamples
+    torch, 
+    luz, 
+    Seurat, 
+    Matrix, 
+    DropletUtils, 
+    R.utils
 Suggests: 
-    testthat (>= 3.0.0)
+    testthat (>= 3.0.0),
+    knitr
 Config/testthat/edition: 3
+Collate: 
+    'DatasetConstructors.R'
+    'VAE.R'
+    'utils.R'
+VignetteBuilder: knitr
