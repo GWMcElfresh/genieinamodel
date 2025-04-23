@@ -3,7 +3,10 @@
 <url><loc>/LICENSE-text.html</loc></url>
 <url><loc>/authors.html</loc></url>
 <url><loc>/index.html</loc></url>
-<url><loc>/reference/CmdstanrBrmsImage-package.html</loc></url>
+<url><loc>/reference/VAE_HurdleGaussian.html</loc></url>
+<url><loc>/reference/WriteSeuratToAnnData.html</loc></url>
+<url><loc>/reference/hurdleGaussianLoss.html</loc></url>
 <url><loc>/reference/index.html</loc></url>
+<url><loc>/reference/scrnaseqDataLoader.html</loc></url>
 </urlset>
 
