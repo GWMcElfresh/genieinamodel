@@ -31,13 +31,16 @@ simulate_data <- function() {
   R_fixed <- diag(1, P)
   
   # Build your observed matrices (use the same patterns as before)
-  Y_cont <- matrix(rnorm(N * D), N, D)
+  Y_cont <- matrix(0.0, N, D)
   Y_bin  <- matrix(0L, N, D)
   Y_ord  <- matrix(1L, N, D)
   Y_nom  <- matrix(1L, N, D)
-  Y_poi  <- matrix(rpois(N * D, lambda = 2), N, D)
+  Y_poi  <- matrix(0L, N, D)
   Y_nb   <- matrix(0L, N, D)
   miss   <- matrix(0L, N, D)
+
+  Y_cont[,1] <- rnorm(N)               # gaussian for var1
+  Y_poi[,2]  <- rpois(N, lambda = 2)   # poisson for var2
   
   list(
     N       = N,
