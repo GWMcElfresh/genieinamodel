@@ -49,8 +49,8 @@ transformed parameters {
 
 model {
   // Priors on covariance structure
-  L_corr ~ lkj_corr_cholesky(1);   // LKJ(1) on correlation :contentReference[oaicite:5]{index=5}
-  tau    ~ cauchy(0, 1);           // global/local shrinkage :contentReference[oaicite:6]{index=6}
+  L_corr ~ lkj_corr_cholesky(1);   // LKJ(1) on correlation 
+  tau    ~ cauchy(0, 1);           // global/local shrinkage
 
   // Priors on margins
   sigma  ~ normal(1, 0.5);
