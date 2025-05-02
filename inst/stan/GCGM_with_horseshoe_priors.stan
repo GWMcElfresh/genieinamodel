@@ -30,13 +30,12 @@ transformed data {
       idx += 1;             // increment by 1 explicitly
     }
   }
-  int P = idx - 1;
+  int P = idx - 1; // total number of latent dimensions
 }
 
 parameters {
-  cholesky_factor_corr[P] L_corr_raw;   // Cholesky factor of the latent correlation matrix
-  vector<lower=0>[P] tau; // Global shrinkage parameters
-  vector<lower=0>[P] lambda; // Local shrinkage parameters
+  cholesky_factor_corr[P] L_Omega;   // Cholesky factor of the latent correlation matrix
+  vector<lower=1e-3>[P] scale; //regularization of the correlations 
   matrix[N, P]           Z;         // latent utilities for all observations
   vector<lower=0>[D]     sigma;     // continuous response sds
   vector<lower=0>[D]     phi;       // NegBin overdispersion params
@@ -44,30 +43,18 @@ parameters {
 }
 
 transformed parameters {
-  matrix[P, P] L_corr;
-  // add shrinkage to the cholesky factors
-  for (i in 1:P) {
-    for (j in 1:i) {
-      if (i == j) {
-        L_corr[i, j] = 1.0;  // Diagonal elements set to 1
-      } else {
-        L_corr[i, j] = L_corr_raw[i, j] * tau[i] * lambda[j];
-      }
-    }
-  }
-  matrix[P, P] L = diag_pre_multiply(tau, L_corr);
+  matrix[P,P] L = diag_pre_multiply(scale, L_Omega); //covariance factor
 }
 
 model {
-   // Horseshoe priors
-  tau ~ cauchy(0, 1);
-  lambda ~ cauchy(0, 1);
+  //Regularized half-student-t priors on scales
+  scale ~ student_t(3,0,1);
+  L_Omega ~ lkj_corr_cholesky(4); // weak LKJ prior to srink correlations
   
-  for (i in 2:P) {
-    for (j in 1:(i - 1)) {
-      L_corr_raw[i, j] ~ normal(0, 1);
-    }
-  }
+  //Marginal priors
+  sigma ~ normal(1, 0.5);
+  phi ~ cauchy(0, 2);
+  
   // Latent Gaussian copula via Cholesky
   for (n in 1:N)
     Z[n] ~ multi_normal_cholesky(rep_vector(0, P), L);
