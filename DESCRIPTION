@@ -18,7 +18,9 @@ Imports:
     Matrix, 
     DropletUtils, 
     purrr, 
-    R.utils
+    R.utils, 
+    copula, 
+    GGally
 Suggests: 
     testthat (>= 3.0.0),
     knitr
@@ -27,4 +29,5 @@ Collate:
     'DatasetConstructors.R'
     'VAE.R'
     'utils.R'
+    'Visualization.R'
 VignetteBuilder: knitr

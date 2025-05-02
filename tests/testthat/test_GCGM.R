@@ -119,3 +119,18 @@ test_that("Fixed correlations are honored", {
   # Check the empirical mean of the correlation matches the fixed value
   expect_true(abs(mean(corr_draws) - r_fixed) < 0.05)
 })
+
+
+test_that("Horseshoe Prior works", {
+  stan_data <- simulate_data()
+  
+  mod <- cmdstan_model(system.file("stan/GCGM_with_horseshoe_priors.stan", package = "genieinamodel"))
+  fit <- mod$sample(
+    data          = stan_data,
+    chains        = 1,
+    iter_warmup   = 1000,
+    iter_sampling = 1000,
+    seed          = 123,
+    refresh       = 0
+  )
+})
